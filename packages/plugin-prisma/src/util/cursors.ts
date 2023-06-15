@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import superjson from 'superjson';
 import {
   decodeBase64,
   encodeBase64,
@@ -39,7 +40,7 @@ export function cursorFormatter(fields: string | string[]) {
       return encodeBase64(`GPC:${formatCursorChunk(value[fields])}`);
     }
 
-    return encodeBase64(`GPC:J:${JSON.stringify(fields.map((name) => value[name]))}`);
+    return encodeBase64(`GPC:J:${superjson.stringify(fields.map((name) => value[name]))}`);
   };
 }
 
@@ -60,7 +61,7 @@ export function parsePrismaCursor(cursor: unknown) {
       case 'D':
         return new Date(Number.parseInt(value, 10));
       case 'J':
-        return JSON.parse(value) as unknown;
+        return superjson.parse(value);
       case 'I':
         // eslint-disable-next-line node/no-unsupported-features/es-builtins
         return BigInt(value);
