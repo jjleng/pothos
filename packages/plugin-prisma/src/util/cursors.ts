@@ -39,7 +39,9 @@ export function cursorFormatter(fields: string | string[]) {
       return encodeBase64(`GPC:${formatCursorChunk(value[fields])}`);
     }
 
-    return encodeBase64(`GPC:J:${JSON.stringify(fields.map((name) => value[name]))}`);
+    return encodeBase64(
+      `GPC:J:${JSON.stringify(fields.map((name) => String(value[name]).toString()))}`,
+    );
   };
 }
 
